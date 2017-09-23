@@ -103,19 +103,19 @@ def generate_republican_sentence():
 	return string_from_file("./republican/merged-rep.txt")
 
 @app.route('/generate_clinton_sentence', methods = ["GET"])
-def generate_republican_sentence():
+def generate_clinton_sentence():
 	return string_from_file("./republican/merged-clinton.txt")
 
 @app.route('/generate_obama_sentence', methods = ["GET"])
-def generate_republican_sentence():
+def generate_obama_sentence():
 	return string_from_file("./republican/merged-obama.txt")
 
 @app.route('/generate_sanders_sentence', methods = ["GET"])
-def generate_republican_sentence():
+def generate_sanders_sentence():
 	return string_from_file("./republican/merged-sanders.txt")
 
 @app.route('/generate_trump_sentence', methods = ["GET"])
-def generate_republican_sentence():
+def generate_trump_sentence():
 	return string_from_file("./republican/merged-trump.txt")
 
 
