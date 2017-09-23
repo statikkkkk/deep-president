@@ -1,20 +1,111 @@
 from flask import Flask
-
+from random import choice
 
 app = Flask(__name__)
 
 
 
+#--------MARKOV CODE-----------
+
+
+END_PUNCTATION = ["!","?","."]
+MAX_SENTENCES = 10
+
+DEBUG = True
+
+def generateDict(text):
+    words = text.split()
+    if len(words) > 2:
+        dictionary = {}
+        for i,w in enumerate(words):
+            firstWord = words[i];
+            try:    #try to get the other words, maybe i am at the end of the list
+                secondWord = words[i+1];
+                thirdWord = words[i+2];
+            except: #we don't care if we don't have words following the current one and then we exit the loop
+                break
+
+            key = (firstWord,secondWord)
+
+            if key not in dictionary:   #this pair of words is new to the dictionary, and so doesn't have a list of following words
+                dictionary[key]  = []
+
+            dictionary[key].append(thirdWord)
+
+        return dictionary
+    else:
+        return None
+
+def getStartingKey(dictionary):
+    #only upper cased first-in-tuple words are valid for a startingKey 
+    possibleStartingKeys = [key for key in list(dictionary.keys()) if key[0][0].isupper()] 
+    startingKey = choice(possibleStartingKeys)
+    return startingKey
+
+def generateText(dictionary):
+
+    startingKey = getStartingKey(dictionary)
+
+    sentence = []
+    sentence.append(startingKey[0])
+    sentence.append(startingKey[1])
+
+    sentences = 0
+    key = startingKey
+    while True:
+        try:
+            possibleWords = dictionary[key]
+            chosenWord = choice(possibleWords)
+
+            key = (key[1],chosenWord)
+
+            if DEBUG and len(possibleWords)>1:   #with DEBUG enabled you will see a colored word when the word was chosen from a more-than-1 choice list, aka the sentence could have gone 2 or more ways.
+                sentence.append("\033" + chosenWord + "\033")
+                print("\'" + chosenWord + "\' from " + str(possibleWords))
+            else:
+                sentence.append(chosenWord)
+
+            if chosenWord[-1] in END_PUNCTATION:    #if the last char of the word is a end sentence thing
+                sentence.append("\n")
+                sentences = sentences + 1
+                if sentences > MAX_SENTENCES:
+                    break 
+
+        except KeyError:    #the path is closed, better start another sentence!
+            key = getStartingKey(dictionary)
+            sentence.append("\n")
+            sentence.append(key[0])
+            sentence.append(key[1])
+
+    return " ".join(sentence)
+
+
+
+
+      
+
+def string_from_file(filename):
+    with open(filename, 'r') as inputFile:
+	    text = inputFile.read()
+	    dictionary = generateDict(text)
+	    if dictionary:
+	        text = generateText(dictionary)
+	        return text
+	    else:
+	        return "Can't generate dictionary from the input text.\nERROR in generateDict."
+
 @app.route('/generate_democrat_sentence', methods = ["GET"])
 def generate_democrat_sentence():
-	return 'This is the democrat speech'
+	return string_from_file("./democrat/merged-dem.txt")
 
 @app.route('/generate_republican_sentence', methods = ["GET"])
 def generate_republican_sentence():
-	return ' And just so you know from the Secret Service, there are not too many people outside protesting, OK. That I can tell you. A lot of people in here, a lot of people pouring right now. They can get them in. Whatever you can do, fire marshals, we will appreciate it. And I want to thank our great vice president, Mike Pence, for the introduction. As well as my friend Dr. Ben Carson. And thank you to a very, very special man, Franklin Graham, Reverend Franklin Graham, for leading us in prayer. And thank you too Alveda King, the niece of the great Dr. Martin Luther King. It really shows you that America is indeed a nation of faith, we know that. Well, I\'m thrilled to be back in Phoenix, in the great state of Arizona. With so many thousands of hard-working American patriots. You know I\'d love it if the cameras could show this crowd, because it is rather incredible. It is incredible. It is incredible. As everybody here remembers, this was the scene of my first rally speech, right? The crowds were so big, almost as big as tonight, that the people said right at the beginning, you know, there\'s something special happening here. And we went to center stage almost from day one in the debates. We love those debates.'
+	return string_from_file("./republican/merged-rep.txt")
 
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0')
+
+
 
 
