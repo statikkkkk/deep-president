@@ -104,15 +104,15 @@ def generate_republican_sentence():
 
 @app.route('/generate_clinton_sentence', methods = ["GET"])
 def generate_clinton_sentence():
-	return string_from_file("./republican/merged-clinton.txt")
+	return string_from_file("./democrat/merged-clinton.txt")
 
 @app.route('/generate_obama_sentence', methods = ["GET"])
 def generate_obama_sentence():
-	return string_from_file("./republican/merged-obama.txt")
+	return string_from_file("./democrat/merged-obama.txt")
 
 @app.route('/generate_sanders_sentence', methods = ["GET"])
 def generate_sanders_sentence():
-	return string_from_file("./republican/merged-sanders.txt")
+	return string_from_file("./democrat/merged-sanders.txt")
 
 @app.route('/generate_trump_sentence', methods = ["GET"])
 def generate_trump_sentence():
