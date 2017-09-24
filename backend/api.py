@@ -21,8 +21,11 @@ MAX_SENTENCES = 10
 
 DEBUG = True
 
+def remove_unicode(string):
+    return "".join(string.split("\\u"))
+
 def u2a(string):
-    return unicodedata.normalize('NFKD', string).encode('ascii','ignore').decode("utf-8")
+    return remove_unicode(string)
 
 
 def generateDict(text):
@@ -94,6 +97,8 @@ def generateText(dictionary):
 
 global dem_buffer
 global rep_buffer
+
+
 
 
 def string_from_file(filename):
