@@ -21,8 +21,11 @@ MAX_SENTENCES = 10
 
 DEBUG = True
 
+def remove_unicode(string):
+    return "".join(string.split("\\u"))
+
 def u2a(string):
-    return unicodedata.normalize('NFKD', string).encode('ascii','ignore').decode("ascii")
+    return remove_unicode(string)
 
 
 def generateDict(text):
@@ -96,6 +99,8 @@ global dem_buffer
 global rep_buffer
 
 
+
+
 def string_from_file(filename):
     global current_sentence
     with open(filename, 'r') as inputFile:
@@ -105,7 +110,7 @@ def string_from_file(filename):
             text = generateText(dictionary)
             wordP, sentenceP = nlp_util.emotion(text)
 
-            current_sentence = json.dumps({"words": u2a(text), "word_polarity": wordP, "sentence_polarity": sentenceP})
+            current_sentence = json.dumps({"words": text, "word_polarity": wordP, "sentence_polarity": sentenceP})
             return current_sentence
         else:
             return json.dumps({"words": "Can't generate dictionary from the input text.\nERROR in generateDict.", "word_polarity": {}, "sentence_polarity": {}})
