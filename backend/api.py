@@ -96,17 +96,15 @@ global rep_buffer
 
 
 def string_from_file(filename):
+    global current_sentence
     with open(filename, 'r') as inputFile:
         text = inputFile.read()
         dictionary = generateDict(text)
         if dictionary:
             text = generateText(dictionary)
-
-
             wordP, sentenceP = nlp_util.emotion(text)
-
-
-            return json.dumps({"words": text.remove("\\"), "word_polarity": wordP, "sentence_polarity": sentenceP})
+            current_sentence = json.dumps({"words": text, "word_polarity": wordP, "sentence_polarity": sentenceP})
+            return current_sentence
 
         else:
 
@@ -124,24 +122,26 @@ def after_request(response):
 @app.route('/generate_democrat_sentence', methods = ["GET"])
 def generate_democrat_sentence():
     global dem_buffer
+    global current_sentence 
     if(len(dem_buffer)>0):
         d = random.choice(dem_buffer)
         dem_buffer = []
         repopulate()
-        print("total dem buffer size: "+str(len(dem_buffer)))
-        return json.dumps({"words": d[0], "word_polarity": d[1], "sentence_polarity": d[2]})
+        current_sentence = json.dumps({"words": d[0], "word_polarity": d[1], "sentence_polarity": d[2]})
+        return current_sentence
     else:
         return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
 
 @app.route('/generate_republican_sentence', methods = ["GET"])
 def generate_republican_sentence():
     global rep_buffer
+    global current_sentence 
     if(len(rep_buffer)>0):
         r = random.choice(rep_buffer)
         rep_buffer = []
         repopulate()
-        print("total rep buffer size: "+str(len(rep_buffer)))
-        return json.dumps({"words": r[0], "word_polarity": r[1], "sentence_polarity": r[2]})
+        current_sentence = json.dumps({"words": r[0], "word_polarity": r[1], "sentence_polarity": r[2]})
+        return current_sentence
     else:
         return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
 
@@ -221,9 +221,10 @@ def repopulate():
         populate_dem(5-len(dem_buffer))
 
 
-
-def get_current_speech:
+@app.route('/get_current_speech', methods = ["GET"])
+def get_current_speech():
     global current_sentence
+    return current_sentence
 
 
 if __name__ == '__main__':
