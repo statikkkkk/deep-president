@@ -139,7 +139,7 @@ def generate_democrat_sentence():
         d = random.choice(dem_buffer)
         dem_buffer = []
         repopulate()
-        current_sentence = json.dumps({"words": d[0], "word_polarity": d[1], "sentence_polarity": d[2]})
+        current_sentence = json.dumps({"words": d[0].replace(".", ". "), "word_polarity": d[1], "sentence_polarity": d[2]})
         return current_sentence
     else:
         return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
@@ -152,7 +152,7 @@ def generate_republican_sentence():
         r = random.choice(rep_buffer)
         rep_buffer = []
         repopulate()
-        current_sentence = json.dumps({"words": r[0], "word_polarity": r[1], "sentence_polarity": r[2]})
+        current_sentence = json.dumps({"words": r[0].replace(".", ". "), "word_polarity": r[1], "sentence_polarity": r[2]})
         return current_sentence
     else:
         return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
