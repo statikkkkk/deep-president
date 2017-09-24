@@ -192,10 +192,11 @@ def populate_rep(n):
 
 def populate_dem(n):
     count_rep = 0
+    print(os.listdir(os.getcwd()+"/buffer/Democrat"))
     for file in os.listdir(os.getcwd()+"/buffer/Democrat"):
         print(file)
         if(count_rep < n):
-            extract_rep(os.getcwd()+"/buffer/Democrat/"+file)
+            extract_dem(os.getcwd()+"/buffer/Democrat/"+file)
             count = count_rep+1
 
 
