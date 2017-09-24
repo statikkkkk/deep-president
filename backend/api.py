@@ -22,7 +22,7 @@ MAX_SENTENCES = 10
 DEBUG = True
 
 def u2a(string):
-    return unicodedata.normalize('NFKD', string).encode('ascii','ignore').decode("utf-8")
+    return unicodedata.normalize('NFKD', string).encode('ascii','ignore').decode("ascii")
 
 
 def generateDict(text):
