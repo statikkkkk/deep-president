@@ -24,10 +24,8 @@ check_val(){
             res => {
               console.log(res.words)
               if(this.current_text != "~" && res.words != this.current_text){
-                console.log("YAY")
                 this.router.navigateByUrl('/speech');
               }else{
-                console.log("NOPE")
                 setTimeout(this.check_val(), 2000);
               }
 
