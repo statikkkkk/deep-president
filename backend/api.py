@@ -92,7 +92,6 @@ def generateText(dictionary):
 
 
 global dem_buffer
-global 
 global rep_buffer
 
 
