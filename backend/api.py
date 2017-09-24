@@ -99,8 +99,6 @@ global dem_buffer
 global rep_buffer
 
 
-
-
 def string_from_file(filename):
     global current_sentence
     with open(filename, 'r') as inputFile:
@@ -245,7 +243,7 @@ if __name__ == '__main__':
 
     dem_buffer = []
     rep_buffer = []
-    current_sentence = []
+    current_sentence = json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
 
 
 
