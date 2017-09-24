@@ -1,9 +1,9 @@
 # deep-president
 
 Backend:
-The package uses a Deep LSTM to generate presidential speeches.
+The package uses a Deep LSTM to generate presidential speeches. Developed in Python. 
 Frontend:
-The speech is fed through AWS to Alexa for text-to-speech.
+The speech is fed through AWS to Alexa for text-to-speech. Developed in Javascript. 
 
 ## Getting Started
 
@@ -11,11 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-The backend is developed in Python, and the frontend (optional) is developed in ...
-
-```
-Give examples
-```
+The backend is developed in Python, and the frontend is developed in JavaScript. 
 
 ### Installing
 
