@@ -9,18 +9,31 @@ import { HttpClient } from '../services/httpclient.service';
   styleUrls: ['./app.component.css'], 
   providers: [QueryService, HttpClient]
 })
+
 export class SpeechComponent {
 
-	current_text:string = ""
-	constructor(private queryService: QueryService){
-    	queryService.checkSpeech().subscribe(
-    	res => {
-    		if(this.current_text != "" && res.text() != this.current_text){
-    			console.log("UPDATED STRINGGGG")
-    		}
-    		this.current_text = res.text()
-    	},err => { 
-    		console.log(err)
-    	})
-    }
+  constructor(private queryService: QueryService){
+      this.check_val()
+   }
+
+   words: string[] = []
+   polarity:any = {}
+   type:number = 1
+   get_color(){
+
+   }
+check_val(){
+      
+
+          this.queryService.checkSpeech().subscribe(
+            res => {         
+              this.words = res.words.split(" ");
+              this.polarity = res.word_polarity
+            },err => { 
+              console.log(err)
+              setTimeout(this.check_val(), 2000);
+  
+            })
+}
+
 }

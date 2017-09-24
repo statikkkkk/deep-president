@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { QueryService } from './../services/query.service';
 import { HttpClient } from '../services/httpclient.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -12,32 +13,30 @@ import { HttpClient } from '../services/httpclient.service';
 })
 export class PendingComponent {
 
-	current_text:string = ""
-	constructor(private queryService: QueryService){
+	current_text:string = "~"
+	constructor(private queryService: QueryService, private router: Router){
     	this.check_val()
    }
 
 check_val(){
       
-
-
           this.queryService.checkSpeech().subscribe(
             res => {
-              if(this.current_text != "" && res.text() != this.current_text){
-                console.log("UPDATED STRINGGGG")
+              console.log(res.words)
+              if(this.current_text != "~" && res.words != this.current_text){
+                console.log("YAY")
+                this.router.navigateByUrl('/speech');
               }else{
-                this.check_val()
+                console.log("NOPE")
+                setTimeout(this.check_val(), 2000);
               }
 
-              this.current_text = res.text()
+              this.current_text = res.words
             },err => { 
               console.log(err)
-              this.check_val()
-            })
-       
-    
+              setTimeout(this.check_val(), 2000);
   
-
+            })
 }
 
 }
