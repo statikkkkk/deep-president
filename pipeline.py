@@ -1,6 +1,13 @@
 # data processing pipeline for poli-speech
 import inference
 import nlp_util
+import sys
+reload(sys)  
+sys.setdefaultencoding('utf8')
+import pickle
+import os
+import time.time
+
 def generateSpeech(party):
     if party is 'Republican':
         folder = 'data/republican'
@@ -23,7 +30,14 @@ def generateSpeech(party):
     print(wordPolarity)
     print('=========')
     # print(sentencePolarity)
-    return cleaned, wordPolarity, sentencePolarity
+    return (cleaned, wordPolarity, sentencePolarity)
+
+flag = True
+while True:
+    if flag:
+        party = 'Republican'
+    else:
+        party = 'Democrat'
+    pickle.dump(generateSpeech(party), open(os.join('buffer','Republican', str(time.time())+'.p'), "wb" ) ) 
 
 
-# generateSpeech('Republican')
