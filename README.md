@@ -39,7 +39,7 @@ Based on your GPU specs, training might be potentially a long wait. We trained o
 
 You can modify our model architecutre based on your hardware. Fewer layers and smaller unit sizes will speed up the training process, with the trade of losing expressive power on the LSTM networks.
 
-The network training is done inside of `deep-text-char.py', and modify the network as you see fit in `LSTM()`.
+The network training is done inside of `deep-text-char.py`, and modify the network as you see fit in `LSTM()`.
 
 Compile and run your final model like this:
 ```
