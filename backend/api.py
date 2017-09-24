@@ -13,6 +13,8 @@ MAX_SENTENCES = 10
 
 DEBUG = True
 
+
+
 def generateDict(text):
     words = text.split()
     if len(words) > 2:
@@ -94,6 +96,15 @@ def string_from_file(filename):
 	    else:
 	        return "Can't generate dictionary from the input text.\nERROR in generateDict."
 
+
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', 'http://localhost:8080')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  response.headers.add('Access-Control-Allow-Credentials', 'true')
+  return response
+  
 @app.route('/generate_democrat_sentence', methods = ["GET"])
 def generate_democrat_sentence():
 	return string_from_file("./democrat/merged-dem.txt")

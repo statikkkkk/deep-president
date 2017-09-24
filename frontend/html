@@ -17,6 +17,33 @@ Now, Therefore, I, Donald J. Trump, President of the United States of America, b
 
 In Witness Whereof, I have hereunto set my hand this first day of February, in the year of our Lord two thousand seventeen, and of the Independence of the United States of America the two hundred and forty-first.</p>
 </div>
+
+<div id="myChart" style="width: 200px; height: 200px"></div>
+
+<!-- <div style = "width: 1200px; margin:auto;">
+<canvas id="smoothie-chart" width = "1200" height= "250">
+</div>
+
+
+<script type="text/javascript" src="smoothie.js"></script>
+	<script>
+		var chart = new SmoothieChart({grid:{fillStyle:'#ffffff',strokeStyle:'transparent',verticalSections:0}}),
+		    canvas = document.getElementById('smoothie-chart'),
+		    series = new TimeSeries();
+
+		chart.addTimeSeries(series, {lineWidth:2,strokeStyle:'#00d1ff',fillStyle:'rgba(0,208,255,0.15)'});
+		chart.streamTo(canvas, 500);
+
+		setInterval(function() {
+			for (var i = 0; i < chart.seriesSet.length; i++)
+			{
+			    seriesOptions = chart.seriesSet[i].options;
+			    seriesOptions.fillStyle = 'rgba(0,'+Math.floor(208*Math.random())+',255,0.15)'
+			    seriesOptions.strokeStyle = 'rgba(0,'+Math.floor(208*Math.random())+',255,0.15)'
+			}
+  			series.append(new Date().getTime(), Math.random());
+		}, 1000);
+	</script> -->
 </body>
 
 </html>
