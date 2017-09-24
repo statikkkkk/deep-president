@@ -7,6 +7,7 @@ import pickle
 import random
 import json
 import nlp_util
+import unicodedata
 
 app = Flask(__name__)
 
@@ -19,6 +20,9 @@ END_PUNCTATION = ["!","?","."]
 MAX_SENTENCES = 10
 
 DEBUG = True
+
+def u2a(string):
+    return unicodedata.normalize('NFKD', string).encode('ascii','ignore').decode("utf-8")
 
 
 def generateDict(text):
@@ -100,7 +104,8 @@ def string_from_file(filename):
         if dictionary:
             text = generateText(dictionary)
             wordP, sentenceP = nlp_util.emotion(text)
-            current_sentence = json.dumps({"words": text, "word_polarity": wordP, "sentence_polarity": sentenceP})
+
+            current_sentence = json.dumps({"words": u2a(text), "word_polarity": wordP, "sentence_polarity": sentenceP})
             return current_sentence
         else:
             return json.dumps({"words": "Can't generate dictionary from the input text.\nERROR in generateDict.", "word_polarity": {}, "sentence_polarity": {}})
