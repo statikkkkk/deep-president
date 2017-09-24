@@ -1,5 +1,12 @@
 from flask import Flask
 from random import choice
+import textblob
+import os.path
+import glob
+import pickle
+import random
+import json
+import nlp_util
 
 app = Flask(__name__)
 
@@ -12,6 +19,8 @@ END_PUNCTATION = ["!","?","."]
 MAX_SENTENCES = 10
 
 DEBUG = True
+
+
 
 
 
@@ -62,39 +71,47 @@ def generateText(dictionary):
             key = (key[1],chosenWord)
 
             if DEBUG and len(possibleWords)>1:   #with DEBUG enabled you will see a colored word when the word was chosen from a more-than-1 choice list, aka the sentence could have gone 2 or more ways.
-                sentence.append("\033" + chosenWord + "\033")
-                print("\'" + chosenWord + "\' from " + str(possibleWords))
+                sentence.append("" + chosenWord + "")
+                print("" + chosenWord + " from " + str(possibleWords))
             else:
                 sentence.append(chosenWord)
 
             if chosenWord[-1] in END_PUNCTATION:    #if the last char of the word is a end sentence thing
-                sentence.append("\n")
+                sentence.append("")
                 sentences = sentences + 1
                 if sentences > MAX_SENTENCES:
                     break 
 
         except KeyError:    #the path is closed, better start another sentence!
             key = getStartingKey(dictionary)
-            sentence.append("\n")
+            sentence.append("")
             sentence.append(key[0])
             sentence.append(key[1])
 
     return " ".join(sentence)
 
 
+global dem_buffer
+global 
+global rep_buffer
 
-
-      
 
 def string_from_file(filename):
     with open(filename, 'r') as inputFile:
-	    text = inputFile.read()
-	    dictionary = generateDict(text)
-	    if dictionary:
-	        text = generateText(dictionary)
-	        return text
-	    else:
-	        return "Can't generate dictionary from the input text.\nERROR in generateDict."
+        text = inputFile.read()
+        dictionary = generateDict(text)
+        if dictionary:
+            text = generateText(dictionary)
+
+
+            wordP, sentenceP = nlp_util.emotion(text)
+
+
+            return json.dumps({"words": text.remove("\\"), "word_polarity": wordP, "sentence_polarity": sentenceP})
+
+        else:
+
+            return json.dumps({"words": "Can't generate dictionary from the input text.\nERROR in generateDict.", "word_polarity": {}, "sentence_polarity": {}})
 
 
 @app.after_request
@@ -107,11 +124,31 @@ def after_request(response):
   
 @app.route('/generate_democrat_sentence', methods = ["GET"])
 def generate_democrat_sentence():
-	return string_from_file("./democrat/merged-dem.txt")
+    global dem_buffer
+    if(len(dem_buffer)>0):
+        d = random.choice(dem_buffer)
+        dem_buffer = []
+        repopulate()
+        print("total dem buffer size: "+str(len(dem_buffer)))
+        return json.dumps({"words": d[0], "word_polarity": d[1], "sentence_polarity": d[2]})
+    else:
+        return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
 
 @app.route('/generate_republican_sentence', methods = ["GET"])
 def generate_republican_sentence():
-	return string_from_file("./republican/merged-rep.txt")
+    global rep_buffer
+    if(len(rep_buffer)>0):
+        r = random.choice(rep_buffer)
+        rep_buffer = []
+        repopulate()
+        print("total rep buffer size: "+str(len(rep_buffer)))
+        return json.dumps({"words": r[0], "word_polarity": r[1], "sentence_polarity": r[2]})
+    else:
+        return json.dumps({"words": "", "word_polarity": [], "sentence_polarity": []})
+
+
+
+#HMMS
 
 @app.route('/generate_clinton_sentence', methods = ["GET"])
 def generate_clinton_sentence():
@@ -130,9 +167,91 @@ def generate_trump_sentence():
 	return string_from_file("./republican/merged-trump.txt")
 
 
-if __name__ == '__main__':
-	app.run(host='0.0.0.0')
 
+
+
+def extract_rep(fn):
+    rep_buffer.append(pickle.load( open( fn, "rb" ) ))
+    print(len(rep_buffer))
+
+
+def extract_dem(fn):
+    dem_buffer.append(pickle.load( open( fn, "rb" ) ))
+    print(len(dem_buffer))
+
+    
+
+
+def populate_rep(n):
+    count_rep = 0
+    for file in os.listdir(os.getcwd()+"/buffer/Republican"):
+        print(file)
+        if(count_rep < n):
+            extract_rep(os.getcwd()+"/buffer/Republican/"+file)
+            count = count_rep+1
+
+
+def populate_dem(n):
+    count_rep = 0
+    for file in os.listdir(os.getcwd()+"/buffer/Democrat"):
+        print(file)
+        if(count_rep < n):
+            extract_rep(os.getcwd()+"/buffer/Democrat/"+file)
+            count = count_rep+1
+
+
+
+
+def f(input):
+    # do something here ...
+    # call f() again in 60 seconds
+    if(len(rep_buffer)<5):
+        extract_rep(5-len(rep_buffer))
+    if(len(dem_buffer)<5):
+        extract_dem(5-len(dem_buffer))
+
+    return input
+
+
+    
+
+def repopulate():
+    if(len(rep_buffer)<5):
+        populate_rep(5-len(rep_buffer))
+    if(len(dem_buffer)<5):
+        populate_dem(5-len(dem_buffer))
+
+
+
+def get_current_speech:
+    global current_sentence
+
+
+if __name__ == '__main__':
+    global dem_buffer
+    global rep_buffer
+    global current_sentence
+
+    dem_buffer = []
+    rep_buffer = []
+    current_sentence = []
+
+
+
+    #rep
+
+    # populate_rep(5)
+
+    repopulate()
+
+           
+
+
+
+
+
+
+    app.run(host='0.0.0.0')
 
 
 
