@@ -108,7 +108,7 @@ def string_from_file(filename):
             text = generateText(dictionary)
             wordP, sentenceP = nlp_util.emotion(text)
 
-            current_sentence = json.dumps({"words": text, "word_polarity": wordP, "sentence_polarity": sentenceP})
+            current_sentence = json.dumps({"words": text.replace(".", ". "), "word_polarity": wordP, "sentence_polarity": sentenceP})
             return current_sentence
         else:
             return json.dumps({"words": "Can't generate dictionary from the input text.\nERROR in generateDict.", "word_polarity": {}, "sentence_polarity": {}})
