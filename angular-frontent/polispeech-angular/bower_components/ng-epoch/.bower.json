@@ -1,0 +1,42 @@
+{
+  "name": "ng-epoch",
+  "version": "2.0.1",
+  "main": "ng-epoch.js",
+  "description": "Angular directive wrapper for EpochJS, a charting plugin by Fastly.",
+  "ignore": [
+    ".jshintrc"
+  ],
+  "authors": [
+    "Mark Litchfield <ldapmonkey@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dainbrump/ng-epoch"
+  },
+  "license": "MIT",
+  "keywords": [
+    "epoch js",
+    "d3",
+    "angular",
+    "charts",
+    "graphs",
+    "charting",
+    "graphing",
+    "web-components"
+  ],
+  "dependencies": {
+    "angular": "^1.5.6",
+    "epoch": "^0.8.4"
+  },
+  "homepage": "https://github.com/dainbrump/ng-epoch",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.1",
+    "commit": "a404d095753f926408020057d54fa0e1630d2e6e"
+  },
+  "_source": "https://github.com/dainbrump/ng-epoch.git",
+  "_target": "^2.0.1",
+  "_originalSource": "ng-epoch",
+  "_direct": true
+}

@@ -15,10 +15,9 @@ body{
 
 }
 .container {
-    width: 1200px;
-    height: 500px;
-    margin: auto;
-    text-align: center;
+    width: 61.8%;
+    height: 95%;
+    text-align: right;
     overflow: hidden;
     background: white;
     position: relative;
@@ -29,7 +28,7 @@ body{
     top: 6em;
     position: relative;
     box-sizing: border-box;
-    animation: marquee 1200s linear infinite;
+    animation: marquee 1300s linear infinite;
 }
 
 /* Make it move! */
@@ -43,7 +42,7 @@ body{
     margin: 0;
     padding: 0 1em;
     line-height: 1.5em;
-    font: 5em 'Segoe UI', Tahoma, Helvetica, Sans-Serif;
+    font: 4em Georgia, Times, "Times New Roman", serif;
 }
 
 .microsoft:before, .microsoft::before,

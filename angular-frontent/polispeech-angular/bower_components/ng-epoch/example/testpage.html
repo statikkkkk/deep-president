@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" ng-app="ngEpochTestApp">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Angular-Epoch Chart Test Page</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="../bower_components/epoch/dist/css/epoch.min.css" />
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.8/es5-shim.min.js"></script>
+    <![endif]-->
+  </head>
+  <body ng-controller="chartController as charts">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+          <h1>NG-Epoch Test page</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="six columns">
+          <h4>Static Area</h4>
+          <epoch-area chart-class="category10" chart-height="200" chart-data="charts.areaData" chart-axes="charts.areaAxes"></epoch-area>
+        </div>
+        <div class="six columns">
+          <h4>Static Bar</h4>
+          <epoch-bar chart-class="category10" chart-height="200" chart-data="charts.barData"></epoch-bar>
+        </div>
+      </div>
+      <div class="row">
+        <div class="six columns">
+          <h4>Static Line</h4>
+          <epoch-line chart-height="200" chart-data="charts.lineData" chart-axes="charts.lineAxes"></epoch-line>
+        </div>
+        <div class="six columns">
+          <h4>Pie Chart</h4>
+          <epoch-pie chart-class="category10" chart-height="200" chart-width="200" chart-data="charts.pieData"></epoch-pie>
+        </div>
+      </div>
+      <div class="row">
+        <div class="six columns">
+          <h4>Donut Chart</h4>
+          <epoch-pie chart-class="category10" chart-height="200" chart-width="200" chart-data="charts.pieData" chart-inner="25"></epoch-pie>
+        </div>
+        <div class="six columns">
+          <h4>Scatter Graph</h4>
+          <epoch-scatter chart-height="200" chart-data="charts.scatterData" chart-axes="charts.scatterAxes"></epoch-scatter>
+        </div>
+      </div>
+      <div class="row">
+        <div class="six columns">
+          <h4>Bubble Graph</h4>
+          <epoch-scatter chart-height="200" chart-data="charts.bubbleData"></epoch-scatter>
+        </div>
+        <div class="six columns">
+          <h4>Realtime Area</h4>
+          <epoch-live-area chart-class="category10" chart-height="200" chart-data="charts.realtimeArea" chart-stream="charts.realtimeAreaFeed" chart-axes="charts.areaAxes"></epoch-live-area>
+        </div>
+      <div class="row">
+        <div class="six columns">
+          <h4>Realtime Bar</h4>
+          <epoch-live-bar chart-class="category10" chart-height="200" chart-data="charts.realtimeBar" chart-stream="charts.realtimeBarFeed" chart-axes="charts.barAxes"></epoch-live-bar>
+        </div>
+        <div class="six columns">
+          <h4>Gauge</h4>
+          <epoch-gauge gauge-value="gauge" gauge-stream="charts.gaugeFeed"></epoch-gauge>
+        </div>
+      </div>
+      <div class="row">
+        <div class="six columns">
+          <h4>Realtime Line</h4>
+          <epoch-live-line chart-class="category10" chart-height="200" chart-data="charts.realtimeLine" chart-stream="charts.realtimeLineFeed" chart-axes="charts.areaAxes"></epoch-live-line>
+        </div>
+        <div class="six columns">
+          <h4>Heatmap</h4>
+          <epoch-heatmap chart-height="200" chart-data="charts.heatmap" chart-stream="charts.heatmapFeed" chart-window-size="charts.hmWindowSize" chart-buckets="charts.hmBuckets" chart-bucket-range="charts.hmBucketRange" chart-opacity="charts.hmOpacity"></epoch-heatmap>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.2/jquery.min.js"></script>
+    <script src="../bower_components/d3/d3.min.js"></script>
+    <script src="../bower_components/epoch/dist/js/epoch.min.js"></script>
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="../ng-epoch.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
