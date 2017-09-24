@@ -21,24 +21,21 @@ MAX_SENTENCES = 10
 DEBUG = True
 
 
-
-
-
 def generateDict(text):
     words = text.split()
     if len(words) > 2:
         dictionary = {}
         for i,w in enumerate(words):
             firstWord = words[i];
-            try:    #try to get the other words, maybe i am at the end of the list
+            try:
                 secondWord = words[i+1];
                 thirdWord = words[i+2];
-            except: #we don't care if we don't have words following the current one and then we exit the loop
+            except: 
                 break
 
             key = (firstWord,secondWord)
 
-            if key not in dictionary:   #this pair of words is new to the dictionary, and so doesn't have a list of following words
+            if key not in dictionary:
                 dictionary[key]  = []
 
             dictionary[key].append(thirdWord)
@@ -77,7 +74,7 @@ def generateText(dictionary):
                 sentence.append(chosenWord)
 
             if chosenWord[-1] in END_PUNCTATION:    #if the last char of the word is a end sentence thing
-                sentence.append("")
+                sentence.append(" ")
                 sentences = sentences + 1
                 if sentences > MAX_SENTENCES:
                     break 
@@ -105,9 +102,7 @@ def string_from_file(filename):
             wordP, sentenceP = nlp_util.emotion(text)
             current_sentence = json.dumps({"words": text, "word_polarity": wordP, "sentence_polarity": sentenceP})
             return current_sentence
-
         else:
-
             return json.dumps({"words": "Can't generate dictionary from the input text.\nERROR in generateDict.", "word_polarity": {}, "sentence_polarity": {}})
 
 
@@ -118,11 +113,20 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   response.headers.add('Access-Control-Allow-Credentials', 'true')
   return response
-  
+
+@app.route('/generate_democrat_sentence_markov', methods = ["GET"])
+def generate_democrat_sentence_markov():
+    return string_from_file("./democrat/merged-dem.txt")
+
+@app.route('/generate_republican_sentence_markov', methods = ["GET"])
+def generate_republican_sentence_markov():
+    return string_from_file("./republican/merged-rep.txt")
+
+
 @app.route('/generate_democrat_sentence', methods = ["GET"])
 def generate_democrat_sentence():
     global dem_buffer
-    global current_sentence 
+    global current_sentence
     if(len(dem_buffer)>0):
         d = random.choice(dem_buffer)
         dem_buffer = []
@@ -200,8 +204,6 @@ def populate_dem(n):
             count = count_rep+1
 
 
-
-
 def f(input):
     # do something here ...
     # call f() again in 60 seconds
@@ -212,8 +214,6 @@ def f(input):
 
     return input
 
-
-    
 
 def repopulate():
     if(len(rep_buffer)<5):
